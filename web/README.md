@@ -33,6 +33,7 @@ through `track()` in `lib/analytics.ts`:
 | `donate_copy_upi` | none | Copy UPI ID (the ID itself is never sent) |
 | `social_click` | `platform` | Social icons in the footer and the "Follow along" row |
 | `portfolio_click` | `location` (footer, maker) | "Portfolio" and "See more of my work" |
+| `sidekick_click` | `location` (footer, promo_card) | The Sidekick link in the footer and "Get Sidekick (beta)" |
 | `github_click` | `location`, `kind` (star, source) | Repo links in the nav and footer |
 | `faq_open` | `question` | Opening a FAQ answer |
 
