@@ -12,6 +12,7 @@ export type TrackEvent =
   | "donate_copy_upi"
   | "social_click"
   | "portfolio_click"
+  | "sidekick_click"
   | "github_click"
   | "faq_open";
 

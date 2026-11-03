@@ -2,6 +2,7 @@ import Logo from "./Logo";
 import { MAKER } from "@/lib/config";
 import GithubLink, { GithubMark } from "./GithubLink";
 import { PortfolioLink, SocialIcons } from "./Socials";
+import SidekickLink from "./SidekickLink";
 
 const footerLink =
   "inline-flex items-center gap-2 rounded text-mist underline decoration-line-strong transition-colors duration-200 hover:text-aqua hover:decoration-aqua";
@@ -23,25 +24,34 @@ export default function Footer() {
             <SocialIcons size="sm" />
           </nav>
         </div>
-        <ul className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Links">
-          <li>
-            <GithubLink location="footer" kind="source" className={footerLink}>
-              <GithubMark size={16} />
-              View source on GitHub
-            </GithubLink>
-          </li>
-          <li>
-            <GithubLink location="footer" kind="star" className={footerLink}>
-              ★ Star on GitHub
-            </GithubLink>
-          </li>
-          <li>
-            <PortfolioLink location="footer" className={footerLink}>
-              Portfolio
-              <span className="sr-only">(opens in a new tab)</span>
-            </PortfolioLink>
-          </li>
-        </ul>
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-14">
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 sm:flex-col sm:gap-2.5" aria-label="Links">
+            <li>
+              <GithubLink location="footer" kind="source" className={footerLink}>
+                <GithubMark size={16} />
+                View source on GitHub
+              </GithubLink>
+            </li>
+            <li>
+              <GithubLink location="footer" kind="star" className={footerLink}>
+                ★ Star on GitHub
+              </GithubLink>
+            </li>
+            <li>
+              <PortfolioLink location="footer" className={footerLink}>
+                Portfolio
+                <span className="sr-only">(opens in a new tab)</span>
+              </PortfolioLink>
+            </li>
+          </ul>
+          <div>
+            <h2 className="font-display text-[0.95rem] leading-6 font-bold tracking-[-0.01em] text-ink">Also by Chetan</h2>
+            <SidekickLink location="footer" className={`${footerLink} mt-2.5`}>
+              Sidekick
+            </SidekickLink>
+            <p className="mt-1 text-[0.9rem] text-haze">Your Android phone, on your Mac.</p>
+          </div>
+        </div>
       </div>
       <div className="wrap flex flex-col gap-2 border-t border-line py-6 text-[0.85rem] text-haze">
         <p>Privacy-friendly analytics. No cookies.</p>

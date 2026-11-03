@@ -142,6 +142,10 @@ are for play buttons, LEDs and step nodes. The tank, ribs, stand and pipes are d
 - **Level indicator**: five nav dots (640–1279px) or a fixed LED panel (≥1280px). The marigold buzzer LED lights
   only when the final tank is full.
 - **Hear it**: a waveform drawn from the mp3's real RMS peaks. It is a keyboard-operable seek slider.
+- **Sidekick cross-promo** (`components/SidekickPromo.tsx`): an unfilled, bordered strip under the Made-by card, with an
+  outline button, never aqua. It must stay quieter than Download and Support. Its art is a CSS phone and Mac window
+  joined by a dotted pipe, with an aqua drop running each way. Nothing is taken from sidekickapp.in. Copy states only
+  what that site says; it gives no price, so never "free".
 
 ## Do's and Don'ts
 

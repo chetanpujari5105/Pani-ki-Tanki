@@ -1,8 +1,12 @@
 import { ArrowUpRight } from "lucide-react";
 import { MAKER } from "@/lib/config";
 import { PortfolioLink, SocialIcons } from "./Socials";
+import SidekickPromo from "./SidekickPromo";
 
-/** Who made this, a way to see more of their work, and a "Follow along" row. Sits right below Support. */
+/**
+ * Who made this, a way to see more of their work, and a "Follow along" row. Sits right below Support.
+ * The Sidekick cross-promo hangs underneath, quieter than the card itself.
+ */
 export default function Maker() {
   return (
     <section aria-labelledby="maker-title" className="relative -mt-10 bg-night-2 pb-24 sm:-mt-16 sm:pb-32">
@@ -44,6 +48,7 @@ export default function Maker() {
             </nav>
           </div>
         </div>
+        <SidekickPromo />
       </div>
     </section>
   );

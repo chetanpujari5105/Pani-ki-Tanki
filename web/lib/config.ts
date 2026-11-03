@@ -62,6 +62,14 @@ export const MAKER = {
 };
 
 /**
+ * Sidekick, the maker's other app, cross-promoted in the footer and below the Made-by card.
+ * Facts checked against sidekickapp.in: "Your Android phone, on your Mac"; Apple silicon, macOS 11+, Android 10+;
+ * a small beta. The site states no price, so don't call it free.
+ */
+export const SIDEKICK_URL = "https://sidekickapp.in/";
+export const SIDEKICK_LINK = `${SIDEKICK_URL}?ref=tankialert`;
+
+/**
  * Optional: a real screenshot of the popover (e.g. "/img/popover.webp", about 560px wide, in /public).
  * When empty, the showcase renders a faithful HTML replica of the popover.
  */

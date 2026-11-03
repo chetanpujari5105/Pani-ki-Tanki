@@ -417,3 +417,33 @@ p {
     transform: translateX(130px);
   }
 }
+
+/* Sidekick promo: a drop runs phone → Mac, another Mac → phone (54px pipe, 6px drop). */
+@keyframes sk-run {
+  0% {
+    transform: translate3d(0, -50%, 0);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(48px, -50%, 0);
+    opacity: 0;
+  }
+}
+@keyframes sk-run-back {
+  0% {
+    transform: translate3d(48px, -50%, 0);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -50%, 0);
+    opacity: 0;
+  }
+}
