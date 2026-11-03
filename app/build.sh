@@ -1,5 +1,5 @@
 #!/bin/bash
-# Builds build/TankiAlert.app and build/TankiAlert.zip.
+# Builds build/TankiAlert.app, build/TankiAlert.zip and build/TankiAlert.dmg (skip the DMG with NO_DMG=1).
 # Uses XcodeGen + xcodebuild when full Xcode is installed, otherwise swiftc from the Command Line Tools.
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -43,7 +43,14 @@ else
   codesign --force --sign - --timestamp=none "$APP"
 fi
 
-codesign --verify --verbose=1 "$APP"
+# Ad-hoc sign the whole bundle (not notarized), so the zip and the DMG ship the same signed app.
+xattr -cr "$APP"
+codesign --force --deep --sign - --timestamp=none "$APP"
+codesign --verify --deep --strict --verbose=1 "$APP"
 rm -f build/TankiAlert.zip
 ditto -c -k --norsrc --noextattr --keepParent "$APP" build/TankiAlert.zip
 echo "==> Built $APP and build/TankiAlert.zip"
+
+if [ -z "${NO_DMG:-}" ]; then
+  ./scripts/make-dmg.sh
+fi

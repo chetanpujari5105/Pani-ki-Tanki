@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="470" viewBox="0 0 660 470">
+  <!-- TankiAlert DMG window background. Icons sit at (170,215) and (490,215); see dmg/dmgbuild-settings.py.
+       The design is 660x400. The extra 70 px of footer below it only shows where Finder hides its toolbar
+       (macOS 15 and earlier); macOS 26 always shows the toolbar, which leaves exactly 400 pt visible. -->
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="20%" r="85%">
+      <stop offset="0" stop-color="#13244f"/>
+      <stop offset="0.55" stop-color="#0a1430"/>
+      <stop offset="1" stop-color="#060a14"/>
+    </radialGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3ce3d8"/>
+      <stop offset="0.55" stop-color="#2f6bff"/>
+      <stop offset="1" stop-color="#1236a8"/>
+    </linearGradient>
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a8c4ff" stop-opacity="0.10"/>
+      <stop offset="0.35" stop-color="#eaf2ff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#a8c4ff" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="arrow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3ce3d8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#3ce3d8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#2f6bff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#2f6bff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="tankBody"><rect x="302" y="92" width="56" height="70" rx="12"/></clipPath>
+  </defs>
+
+  <rect width="660" height="470" fill="#060a14"/>
+  <rect width="660" height="400" fill="url(#sky)"/>
+
+  <!-- stars -->
+  <g fill="#eaf2ff">
+    <circle cx="62" cy="40" r="1" opacity=".5"/><circle cx="128" cy="78" r=".8" opacity=".35"/>
+    <circle cx="214" cy="30" r="1.1" opacity=".45"/><circle cx="452" cy="36" r=".9" opacity=".4"/>
+    <circle cx="540" cy="74" r="1.2" opacity=".5"/><circle cx="604" cy="30" r=".8" opacity=".35"/>
+    <circle cx="590" cy="140" r=".7" opacity=".3"/><circle cx="44" cy="150" r=".8" opacity=".3"/>
+  </g>
+
+  <!-- title -->
+  <text x="330" y="52" text-anchor="middle" fill="#eaf2ff"
+        font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif" font-size="19" font-weight="700"
+        letter-spacing="-0.2">Drag TankiAlert into Applications</text>
+
+  <!-- the tanki, filling up, above the arrow -->
+  <ellipse cx="330" cy="128" rx="70" ry="52" fill="url(#glow)"/>
+  <g>
+    <rect x="320" y="80" width="20" height="9" rx="2.5" fill="#a3b4d1"/>
+    <rect x="312" y="87" width="36" height="7" rx="3" fill="#7f93b5"/>
+    <rect x="302" y="92" width="56" height="70" rx="12" fill="#0b1428"/>
+    <g clip-path="url(#tankBody)">
+      <path d="M296 114 Q309 108 322 114 T348 114 T374 114 V170 H296Z" fill="url(#water)"/>
+      <path d="M296 114 Q309 108 322 114 T348 114 T374 114" fill="none" stroke="#a8fff8" stroke-width="1.6" opacity=".9"/>
+      <rect x="302" y="92" width="56" height="70" fill="url(#shell)"/>
+    </g>
+    <g stroke="#eaf2ff" stroke-opacity=".14" stroke-width="1.4">
+      <line x1="304" y1="106" x2="356" y2="106"/><line x1="303" y1="122" x2="357" y2="122"/>
+      <line x1="303" y1="138" x2="357" y2="138"/><line x1="304" y1="152" x2="356" y2="152"/>
+    </g>
+    <rect x="302" y="92" width="56" height="70" rx="12" fill="none" stroke="#eaf2ff" stroke-opacity=".28" stroke-width="1.2"/>
+    <!-- stand -->
+    <path d="M310 162 V176 M350 162 V176 M304 176 H356" stroke="#7f93b5" stroke-width="3" stroke-linecap="round"/>
+    <!-- "ting" -->
+    <g stroke="#ffb23f" stroke-width="2" stroke-linecap="round">
+      <path d="M368 92 l8 -6"/><path d="M371 103 h10"/><path d="M292 92 l-8 -6"/><path d="M289 103 h-10"/>
+    </g>
+  </g>
+
+  <!-- arrow from the app to Applications -->
+  <path d="M244 214 C 290 196, 370 196, 412 212" fill="none" stroke="url(#arrow)" stroke-width="3.2"
+        stroke-linecap="round" stroke-dasharray="1 9"/>
+  <path d="M403 201 L418 214 L399 222" fill="none" stroke="#3ce3d8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Finder always draws icon labels in black on a picture background, so each label sits on a lit name tag. -->
+  <g fill="#a8fff8">
+    <rect x="114" y="270" width="112" height="24" rx="12"/>
+    <rect x="428" y="270" width="124" height="24" rx="12"/>
+  </g>
+
+  <!-- rooftop skyline -->
+  <g fill="#0b1428">
+    <path d="M0 400 V346 H48 V330 H58 V322 H76 V330 H86 V346 H150 V338 H232 V352 H300 V334 H312 V324 H332 V334 H344 V350 H420 V336 H500 V328 H512 V318 H532 V328 H544 V344 H600 V334 H660 V400Z"/>
+  </g>
+  <rect x="0" y="372" width="660" height="98" fill="#060a14"/>
+  <rect x="0" y="370" width="660" height="2" fill="#a3b4d1" opacity=".12"/>
+
+  <text x="330" y="391" text-anchor="middle" fill="#7f93b5"
+        font-family="-apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif" font-size="11.5">
+    Then open TankiAlert from Applications. It lives in your menu bar.</text>
+</svg>

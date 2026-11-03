@@ -6,7 +6,8 @@ notification when the Mac is on AC power and the battery reaches your threshold.
 ## Build
 
 ```bash
-./build.sh          # -> build/TankiAlert.app and build/TankiAlert.zip
+./build.sh          # -> build/TankiAlert.app, build/TankiAlert.zip and build/TankiAlert.dmg
+NO_DMG=1 ./build.sh # skip the DMG
 ```
 
 - With full Xcode installed, `build.sh` runs `xcodegen generate` and then
@@ -14,6 +15,28 @@ notification when the Mac is on AC power and the battery reaches your threshold.
 - With only the Command Line Tools installed, it compiles `Sources/*.swift` with `swiftc` for arm64 and x86_64,
   assembles the `.app` bundle from `Support/Info.plist`, and ad-hoc signs it.
 - If `~/tanki.mp3` (or `.m4a` / `.wav`) exists, it is copied into `Sources/Resources/` and bundled.
+- Either way it ad-hoc signs the bundle (`codesign --force --deep --sign -`), zips it, then runs
+  `scripts/make-dmg.sh`.
+
+### DMG installer
+
+`scripts/make-dmg.sh` builds `build/TankiAlert.dmg`: a compressed (ULMO, about 2.6 MB) drag-to-Applications image
+with a volume icon and a background (`dmg/background.png` + `@2x`) whose arrow runs from the app to the Applications
+link. It uses [dmgbuild](https://github.com/dmgbuild/dmgbuild), which writes Finder's `.DS_Store` layout directly
+(settings in `dmg/dmgbuild-settings.py`), and installs it into `build/.dmgbuild-venv` the first time if it isn't on
+your `PATH`. Tools that script Finder over AppleScript, like create-dmg, lose most of the layout on macOS 26. The
+script falls back to create-dmg, then to a plain `hdiutil` image.
+
+To change the background, edit `dmg/background.svg` and run `node scripts/render-dmg-background.mjs` (it uses the
+Playwright install in `../web`). Keep the icons at (170, 215) and (490, 215). macOS 26 Finder always shows its
+toolbar, so the window is 497 pt tall to leave the 660×400 design fully visible.
+
+### Built-in sounds
+
+Five of the six presets (Ting, Water Drop, Bell, Siren, Success) are synthesised from scratch by
+`scripts/make-sounds.sh` with ffmpeg (no samples, so they're original and licence-free), normalised to about
+−14 LUFS with a −1 dBFS peak limit, and saved as mono AAC in `Sources/Resources/sounds/`. The sixth, Pani ki
+Tanki, is `Sources/Resources/tanki.mp3`. Re-run the script after changing a recipe.
 
 ### App icon
 
@@ -36,8 +59,11 @@ The app has no Dock icon. Click the battery icon in the menu bar. The icon shows
 - The alert fires when on AC, enabled, the battery is at or above the threshold, and it hasn't already fired this cycle.
 - It re-arms when you unplug, when the battery drops 3 or more points below the threshold, or when you set a new
   threshold above the current %.
-- The sound is your chosen file, else the bundled `tanki.*`, else the system Glass sound. It plays 1–5 times.
-- Settings (enabled, threshold, repeats, sound) are stored in `UserDefaults` (`com.chetan.tankialert`).
+- The sound is the selection in the Sound list: a built-in preset, or "Custom file…" (the file from Choose Sound).
+  If the custom file has gone missing, it plays the default preset (Pani ki Tanki), then the system Glass sound.
+  It plays 1–5 times. Each preset's play button previews it once.
+- Settings (enabled, threshold, repeats, `soundChoice` = `preset:<id>` or `custom`, `soundPath`) are stored in
+  `UserDefaults` (`com.chetan.tankialert`). Upgrading from 1.0 with a chosen file keeps it as "Custom file…".
 
 ## Testing
 
@@ -56,6 +82,10 @@ cat /tmp/tanki.log   # look for "FIRED at …"
 
 `--set-threshold` saves the threshold just like the slider does, so set it back afterwards.
 
+To check the sounds: `--select-sound preset:bell` (or `ting`, `drop`, `siren`, `success`, `tanki`, or `custom`)
+picks a sound exactly like the Sound list does and saves it. `--test-sound` presses Test Sound. With `--debug` the log
+shows `playing bell.m4a x2` and `finished bell.m4a`.
+
 ## Notes
 
 - If you use macOS "Optimized Battery Charging" or an 80% charge limit, the battery may never reach 100%.
@@ -66,8 +96,9 @@ cat /tmp/tanki.log   # look for "FIRED at …"
 ## Website
 
 The marketing site lives in [`../web`](../web/README.md) (Next.js static export, deployed on Vercel). Its Download
-button points at `https://github.com/chetanpujari5105/Pani-ki-Tanki/releases/latest/download/TankiAlert.zip`, so
-attach `build/TankiAlert.zip` (named exactly `TankiAlert.zip`) to each GitHub Release.
+button points at `https://github.com/chetanpujari5105/Pani-ki-Tanki/releases/latest/download/TankiAlert.dmg` (with a
+`.zip` link as a fallback), so attach both `build/TankiAlert.dmg` and `build/TankiAlert.zip`, named exactly that, to
+each GitHub Release.
 
 ## Support
 
