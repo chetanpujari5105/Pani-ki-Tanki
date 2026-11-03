@@ -62,8 +62,8 @@ The website uses Vercel Web Analytics, which is privacy-friendly, sets no cookie
 GitHub Releases also counts every download of each asset. To see those counts:
 
 ```bash
-./scripts/stats.sh
-# or directly:
+./scripts/stats.sh   # works logged out too (falls back to the public API via curl)
+# or directly, with the GitHub CLI logged in:
 gh api repos/chetanpujari5105/Pani-ki-Tanki/releases --jq '.[] | .tag_name as $t | .assets[] | "\($t) \(.name) \(.download_count)"'
 ```
 
@@ -85,7 +85,7 @@ TankiAlert is free and open source. If it saved your battery (or made you laugh)
 
   <img src="web/public/upi-qr.png" alt="UPI QR code to support TankiAlert" width="220">
 
-- **Anywhere:** [Sponsor on GitHub](https://github.com/sponsors/chetanpujari5105)
+- **Outside India:** [Support on Ko-fi](https://ko-fi.com/chetan46146) (card or PayPal).
 
 ## License
 

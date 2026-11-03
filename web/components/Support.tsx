@@ -2,12 +2,12 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, m } from "motion/react";
-import { Check, Coffee, Copy, Heart, ShieldCheck, Smartphone } from "lucide-react";
+import { Check, Coffee, Copy, ShieldCheck, Smartphone } from "lucide-react";
 import {
-  BMC_URL,
   DEFAULT_AMOUNT,
-  GITHUB_SPONSORS_URL,
+  KOFI_URL,
   MAX_AMOUNT,
+  MIN_AMOUNT,
   SUGGESTED_AMOUNTS,
   UPI_ID,
   UPI_NAME,
@@ -18,11 +18,16 @@ import {
 import { track } from "@/lib/analytics";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-/** The tank rises a little with bigger amounts. It's decoration only: no goal, no totals. */
+/**
+ * The tank rises with the amount. It's decoration only: no goal, no totals.
+ * Tuned for the ₹5–₹50 chips, which spread across most of the tank (₹5 → 26%, ₹10 → 41%, ₹25 → 61%, ₹50 → 76%).
+ * Below ₹5 it dips a little; above ₹50 it keeps rising slowly and tops out at 88% around ₹1,000.
+ */
 function levelFor(amount: number | null) {
-  if (!amount) return 0.24;
-  const t = Math.log(Math.max(10, amount) / 10) / Math.log(100);
-  return Math.min(0.88, 0.2 + 0.68 * Math.min(1, t));
+  if (!amount) return 0.18;
+  if (amount < 5) return 0.18 + 0.08 * ((amount - 1) / 4);
+  if (amount <= 50) return 0.26 + 0.5 * (Math.log(amount / 5) / Math.log(10));
+  return Math.min(0.88, 0.76 + 0.12 * (Math.log(amount / 50) / Math.log(20)));
 }
 
 const secondaryBtn =
@@ -40,7 +45,7 @@ export default function Support() {
   const toastTimer = useRef<number | undefined>(undefined);
 
   const customNum = /^\d{1,6}$/.test(custom) ? Number(custom) : NaN;
-  const customValid = customNum >= 1 && customNum <= MAX_AMOUNT;
+  const customValid = customNum >= MIN_AMOUNT && customNum <= MAX_AMOUNT;
   const customError = choice === "custom" && custom !== "" && !customValid;
   const amount: number | null = choice === "custom" ? (customValid ? customNum : null) : choice;
   const link = amount ? upiLink(amount) : upiLink();
@@ -181,7 +186,7 @@ export default function Support() {
                   </div>
                   {customError && (
                     <p id={`${id}-err`} className="mt-2 text-[0.92rem] text-[#ffb3a8]">
-                      Enter a whole amount from ₹1 to {formatINR(MAX_AMOUNT)}.
+                      Enter a whole amount from {formatINR(MIN_AMOUNT)} to {formatINR(MAX_AMOUNT)}.
                     </p>
                   )}
                 </fieldset>
@@ -251,36 +256,26 @@ export default function Support() {
               </>
             ) : (
               <p className="text-mist">
-                UPI payments are coming soon. Until then, GitHub Sponsors works from anywhere in the world.
+                UPI payments are coming soon. Until then, Ko-fi works from anywhere in the world.
               </p>
             )}
 
-            <div className="mt-6 flex flex-wrap items-center gap-2.5 border-t border-line pt-6">
-              <span className="mr-1 text-[0.95rem] text-mist">Outside India?</span>
-              <a
-                href={GITHUB_SPONSORS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => track("donate_click", { method: "github_sponsors" })}
-                className={secondaryBtn}
-              >
-                <Heart size={17} strokeWidth={2.2} aria-hidden className="text-[#ff8fb3]" />
-                Sponsor on GitHub
-                <span className="sr-only">(opens in a new tab)</span>
-              </a>
-              {BMC_URL && (
+            <div className="mt-6 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-start sm:gap-4">
+              <span className="text-[0.95rem] text-mist sm:flex sm:h-11 sm:items-center">Outside India?</span>
+              <div className="flex flex-col">
                 <a
-                  href={BMC_URL}
+                  href={KOFI_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => track("donate_click", { method: "bmc" })}
-                  className={secondaryBtn}
+                  onClick={() => track("donate_click", { method: "kofi" })}
+                  className={`${secondaryBtn} w-full sm:w-auto`}
                 >
                   <Coffee size={17} strokeWidth={2.2} aria-hidden className="text-marigold-soft" />
-                  Buy me a coffee
+                  Support on Ko-fi
                   <span className="sr-only">(opens in a new tab)</span>
                 </a>
-              )}
+                <p className="mt-2 text-[0.88rem] text-haze">Pay by card or PayPal through Ko-fi.</p>
+              </div>
             </div>
           </div>
         </div>
