@@ -1,5 +1,9 @@
 # 💧 Pani ki Tanki: TankiAlert
 
+[![Latest release](https://img.shields.io/github/v/release/chetanpujari5105/Pani-ki-Tanki)](https://github.com/chetanpujari5105/Pani-ki-Tanki/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/chetanpujari5105/Pani-ki-Tanki/total)](https://github.com/chetanpujari5105/Pani-ki-Tanki/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 **TankiAlert** is a tiny, free macOS menu bar app. When your MacBook charges to the % you choose, it plays
 *"pani ki tanki bhar gayi"* (or any sound you like) and shows a notification, so you unplug on time.
 
