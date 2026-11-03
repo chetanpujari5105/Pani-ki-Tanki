@@ -7,6 +7,7 @@ import Showcase from "@/components/Showcase";
 import Faq, { FAQ } from "@/components/Faq";
 import FinalCta from "@/components/FinalCta";
 import Support from "@/components/Support";
+import Maker from "@/components/Maker";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import { RoofDivider } from "@/components/Skyline";
@@ -43,6 +44,7 @@ export default function Home() {
         <RoofDivider seed={41} from="#0a1222" />
         <FinalCta />
         <Support />
+        <Maker />
       </main>
       <Footer />
       <LevelLadder />

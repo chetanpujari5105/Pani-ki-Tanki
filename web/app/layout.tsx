@@ -7,6 +7,7 @@ import {
   APP_VERSION,
   DOWNLOAD_URL,
   MAKER,
+  PORTFOLIO_URL,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TITLE,
@@ -77,7 +78,13 @@ const jsonLd = {
   url: SITE_URL,
   image: `${SITE_URL}/opengraph-image`,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  author: { "@type": "Person", name: MAKER.name, address: MAKER.place },
+  author: {
+    "@type": "Person",
+    name: MAKER.name,
+    address: MAKER.place,
+    url: PORTFOLIO_URL,
+    sameAs: MAKER.socials.map((s) => s.href),
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -3,12 +3,15 @@ import { track as vercelTrack } from "@vercel/analytics";
 /**
  * Privacy-friendly custom events, sent to Vercel Web Analytics (no cookies, no personal data).
  * Never pass the UPI ID, names, or anything that identifies a person: only the event name and coarse props.
+ * Vercel Pro keeps at most 2 properties per event, so keep every call to 2 props or fewer.
  */
 export type TrackEvent =
   | "download_click"
   | "sound_play"
   | "donate_click"
   | "donate_copy_upi"
+  | "social_click"
+  | "portfolio_click"
   | "github_click"
   | "faq_open";
 

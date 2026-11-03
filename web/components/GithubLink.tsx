@@ -27,7 +27,7 @@ export default function GithubLink({
     <a
       href={REPO_URL}
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       onClick={() => track("github_click", { location, kind })}
       className={className}
     >

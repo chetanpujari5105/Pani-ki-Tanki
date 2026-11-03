@@ -21,7 +21,7 @@ export default function DownloadButton({
   size = "lg",
   className = "",
 }: {
-  location: "nav" | "hero" | "final";
+  location: "nav" | "hero" | "final_cta";
   size?: "sm" | "lg";
   className?: string;
 }) {

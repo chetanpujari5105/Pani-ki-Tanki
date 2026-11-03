@@ -70,7 +70,7 @@ export default function FinalCta() {
           It’s free, it’s {APP_SIZE}, and your MacBook’s battery will thank you. Your neighbours might not.
         </p>
         <div className="mt-9 flex flex-col items-center gap-4">
-          <DownloadButton location="final" />
+          <DownloadButton location="final_cta" />
           <p className="tnum text-[0.9rem] text-ink/75">
             v{APP_VERSION} · macOS 13+ · Apple Silicon &amp; Intel
           </p>
