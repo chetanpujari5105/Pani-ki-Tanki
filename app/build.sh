@@ -36,7 +36,9 @@ else
   lipo -create build/obj/TankiAlert-arm64 build/obj/TankiAlert-x86_64 -output "$APP/Contents/MacOS/TankiAlert"
   cp Support/Info.plist "$APP/Contents/Info.plist"
   printf 'APPL????' > "$APP/Contents/PkgInfo"
-  find Sources/Resources -type f ! -name '.gitkeep' -exec cp {} "$APP/Contents/Resources/" \;
+  # Keeps sub-folders, so the built-in sounds end up in Contents/Resources/sounds/.
+  cp -R Sources/Resources/. "$APP/Contents/Resources/"
+  find "$APP/Contents/Resources" \( -name '.gitkeep' -o -name '.DS_Store' \) -delete
   xattr -cr "$APP"
   codesign --force --sign - --timestamp=none "$APP"
 fi

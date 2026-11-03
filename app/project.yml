@@ -8,7 +8,11 @@ targets:
     platform: macOS
     sources:
       - path: Sources
-        excludes: ["Resources/.gitkeep"]
+        excludes: ["Resources/.gitkeep", "Resources/sounds"]
+      # Built-in alert sounds, copied as a folder so they land in Contents/Resources/sounds/.
+      - path: Sources/Resources/sounds
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.chetan.tankialert
