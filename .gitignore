@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# app build output (release zips go to GitHub Releases, not git)
+app/build/
+app/*.xcodeproj/
+*.zip
+
+# web
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets
+.env
+.env*
+
+# design review captures and screenshots
+.impeccable/
+screenshots/
+*screenshot*
+Screenshot*
+
+# never commit bank documents
+*passbook*
+*Passbook*
+*bank-statement*
+*cheque*

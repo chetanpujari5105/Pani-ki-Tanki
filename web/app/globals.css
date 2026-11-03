@@ -1,0 +1,419 @@
+@import "tailwindcss";
+
+/* ───────────── Tokens: a rooftop at night ───────────── */
+@theme {
+  --color-night: #060a14;
+  --color-night-2: #0a1222;
+  --color-night-3: #101b31;
+  --color-line: rgb(150 190 255 / 0.12);
+  --color-line-strong: rgb(150 190 255 / 0.22);
+  --color-ink: #eaf2ff;
+  --color-mist: #a3b4d1; /* secondary text, 8.9:1 on night */
+  --color-haze: #7f93b5; /* tertiary text, 5.6:1 on night */
+  --color-aqua: #3ce3d8;
+  --color-aqua-deep: #14b8c4;
+  --color-electric: #2f6bff;
+  --color-electric-deep: #1236a8;
+  --color-marigold: #ffb23f;
+  --color-marigold-soft: #ffd27a;
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-deva: "Kohinoor Devanagari", "Nirmala UI", "Noto Sans Devanagari", "Mangal", sans-serif;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --nav-h: 64px;
+}
+
+html {
+  background: var(--color-night);
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-night);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+}
+
+/* Browser surfaces carry the design too */
+::selection {
+  background: rgb(60 227 216 / 0.32);
+  color: #fff;
+}
+* {
+  scrollbar-color: #24355a var(--color-night);
+}
+:where(a, button, input, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-marigold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+a {
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+.deva {
+  font-family: var(--font-deva);
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+/* Film grain. The brief asks for subtle grain, so it's a fixed, static, low-opacity layer. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ───────────── Scroll reveal (JS adds .js to <html>; content is visible without it) ───────────── */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 900ms var(--ease-out);
+  transition-delay: calc(var(--d, 0) * 70ms);
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ───────────── Water primitives ───────────── */
+@keyframes bubble-rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(var(--dx, 0px), -160px, 0);
+    opacity: 0;
+  }
+}
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes pour {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes led-buzz {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 178 63 / 0);
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgb(255 178 63 / 0.75);
+  }
+}
+@keyframes slide-thumb {
+  0%,
+  12% {
+    transform: translateX(18%);
+  }
+  55%,
+  100% {
+    transform: translateX(82%);
+  }
+}
+@keyframes banner-in {
+  0%,
+  8% {
+    transform: translate3d(0, -130%, 0);
+    opacity: 0;
+  }
+  20%,
+  78% {
+    transform: none;
+    opacity: 1;
+  }
+  90%,
+  100% {
+    transform: translate3d(0, -130%, 0);
+    opacity: 0;
+  }
+}
+@keyframes rep-dot {
+  0%,
+  100% {
+    background: rgb(150 190 255 / 0.14);
+    box-shadow: none;
+  }
+  12%,
+  30% {
+    background: var(--color-aqua);
+    box-shadow: 0 0 10px rgb(60 227 216 / 0.7);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* Micro-illustrations only animate while their tile is on screen. */
+.micro * {
+  animation-play-state: paused !important;
+}
+.micro.is-in * {
+  animation-play-state: running !important;
+}
+
+/* ───────────── FAQ: native <details>, animated where supported ───────────── */
+.faq details {
+  interpolate-size: allow-keywords;
+}
+.faq details::details-content {
+  height: 0;
+  overflow: clip;
+  transition:
+    height 320ms var(--ease-out),
+    content-visibility 320ms allow-discrete;
+}
+.faq details[open]::details-content {
+  height: auto;
+}
+.faq summary {
+  list-style: none;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary .chev {
+  transition: transform 260ms var(--ease-out);
+}
+.faq details[open] summary .chev {
+  transform: rotate(45deg);
+}
+
+/* ───────────── macOS-style range slider (popover) ───────────── */
+.mac-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+  --p: 100%;
+}
+.mac-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #3b82ff var(--p), rgb(255 255 255 / 0.18) var(--p));
+}
+.mac-range::-moz-range-track {
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #3b82ff var(--p), rgb(255 255 255 / 0.18) var(--p));
+}
+.mac-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: #f4f6fa;
+  border: 0;
+  box-shadow:
+    0 1px 3px rgb(0 0 0 / 0.5),
+    0 0 0 0.5px rgb(0 0 0 / 0.3);
+  transition: transform 140ms var(--ease-out);
+}
+.mac-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f4f6fa;
+  border: 0;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+}
+.mac-range:active::-webkit-slider-thumb {
+  transform: scale(1.08);
+}
+.mac-range:focus-visible {
+  outline: 2px solid var(--color-marigold);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .micro *,
+  .micro *::before,
+  .micro *::after {
+    animation: none !important;
+  }
+  .js [data-reveal] {
+    transform: none;
+    transition: opacity 300ms ease;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Nav level indicator */
+.gauge > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: rgb(150 190 255 / 0.16);
+  transition:
+    background-color 300ms ease,
+    box-shadow 300ms ease;
+}
+.gauge > span.on {
+  background: var(--color-aqua);
+  box-shadow: 0 0 8px rgb(60 227 216 / 0.6);
+}
+.gauge > span.buzz,
+.ladder .led-buzz.on {
+  background: var(--color-marigold);
+  box-shadow: 0 0 10px rgb(255 178 63 / 0.7);
+  animation: led-buzz 1s ease-in-out 3;
+}
+.ladder .led {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgb(150 190 255 / 0.16);
+  transition:
+    background-color 400ms ease,
+    box-shadow 400ms ease;
+}
+.ladder .led.on {
+  background: var(--color-aqua);
+  box-shadow: 0 0 10px rgb(60 227 216 / 0.65);
+}
+
+/* Animated % counter for the threshold micro-illustration */
+@property --pct {
+  syntax: "<integer>";
+  initial-value: 80;
+  inherits: true;
+}
+@keyframes pct-run {
+  0%,
+  12% {
+    --pct: 59;
+  }
+  55%,
+  100% {
+    --pct: 91;
+  }
+}
+.pct-counter {
+  counter-reset: pct var(--pct);
+}
+.pct-counter::after {
+  content: counter(pct) "%";
+}
+@keyframes chip-on {
+  0%,
+  100% {
+    border-color: rgb(150 190 255 / 0.12);
+    background: transparent;
+  }
+  6%,
+  30% {
+    border-color: rgb(60 227 216 / 0.7);
+    background: rgb(60 227 216 / 0.1);
+  }
+  36% {
+    border-color: rgb(150 190 255 / 0.12);
+    background: transparent;
+  }
+}
+@keyframes slide-fill {
+  0%,
+  12% {
+    transform: translateY(-50%) scaleX(0.18);
+  }
+  55%,
+  100% {
+    transform: translateY(-50%) scaleX(0.82);
+  }
+}
+@keyframes fund-wave {
+  to {
+    transform: translateX(130px);
+  }
+}
